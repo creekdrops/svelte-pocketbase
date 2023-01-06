@@ -20,9 +20,6 @@ specifiers:
   vite: ^4.0.0
   vitest: ^0.25.3
 
-dependencies:
-  pocketbase: 0.9.1
-
 devDependencies:
   '@playwright/test': 1.29.1
   '@sveltejs/adapter-auto': 1.0.0_@sveltejs+kit@1.0.1
@@ -33,6 +30,7 @@ devDependencies:
   eslint: 8.31.0
   eslint-config-prettier: 8.6.0_eslint@8.31.0
   eslint-plugin-svelte3: 4.0.0_6go7qzsvzihesfwmyvq3tnl5qq
+  pocketbase: 0.9.1
   prettier: 2.8.1
   prettier-plugin-svelte: 2.9.0_ajxj753sv7dbwexjherrch25ta
   svelte: 3.55.0
@@ -1453,7 +1451,7 @@ packages:
 
   /pocketbase/0.9.1:
     resolution: {integrity: sha512-a9S/WHak+mgr3WI8bD2tz3lFVFzoy6ZgKTBlUXwIH4VLTKVU3JKeAKxqIFBF7av4qblmB+52tX8sWLS08Ftm/w==}
-    dev: false
+    dev: true
 
   /postcss/8.4.20:
     resolution: {integrity: sha512-6Q04AXR1212bXr5fh03u8aAwbLxAQNGQ/Q1LNa0VfOI06ZAlhPHtQvE4OIdpj4kLThXilalPnmDSOD65DcHt+g==}
