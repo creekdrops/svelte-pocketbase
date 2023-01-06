@@ -1,0 +1,7 @@
+svelte.localhost {
+	reverse_proxy localhost:5173
+}
+
+# pb.localhost {
+# 	reverse_proxy localhost:8090
+# }
