@@ -16,7 +16,7 @@
 </script>
 
 {#if mounted}
-	{#if $user}
+	{#if $pbStore.authStore.isValid && $user}
 		<slot user={$user} />
 	{:else}
 		<slot name="signedout" />
