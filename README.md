@@ -22,11 +22,11 @@ To get started, instantiate a new `pbStore` in a `+page.svelte` or `+layout.svel
 // src/+layout.svelte OR src/+page.svelte
 
 <script>
-	import PocketBase from 'pocketbase';
-	import { pbStore } from 'svelte-pocketbase';
-	import { env } from '$env/dynamic/public';
+  import PocketBase from 'pocketbase';
+  import { pbStore } from 'svelte-pocketbase';
+  import { env } from '$env/dynamic/public';
 
-	pbStore.set(new PocketBase(env.PUBLIC_POCKETBASE_URL));
+  pbStore.set(env.PUBLIC_POCKETBASE_URL);
 </script>
 
 <slot />
@@ -37,18 +37,18 @@ The `pbStore` is the ultimate marriage of PocketBase and Svelte `Writable` magic
 ```typescript
 // src/+page.svelte
 <script>
-	import { pbStore } from 'svelte-pocketbase';
-	let id = "RECORD_ID"
+  import { pbStore } from 'svelte-pocketbase';
+  let id = "RECORD_ID"
 
-	const record = $pbStore.collection('categories').getOne('RECORD_ID');
+  const record = $pbStore.collection('categories').getOne('RECORD_ID');
 </script>
 
 {#await record}
-	<span>Loading...</span>
+  <span>Loading...</span>
 {:then data}
-	<pre>{JSON.stringify(data, null, 2)}</pre>
+  <pre>{JSON.stringify(data, null, 2)}</pre>
 {:catch error}
-	<p style="color: red">{error.message}</p>
+  <p style="color: red">{error.message}</p>
 {/await}
 ```
 
@@ -69,13 +69,13 @@ Every data retrieval component receives a `collection` prop, and an optional `qu
 
 ```typescript
 <script>
-	import { Record } from 'svelte-pocketbase';
+  import { Record } from 'svelte-pocketbase';
 </script>
 
 <Record collection="posts" id="RECORD_ID" let:record >
-	<span slot="loading">Loading...</span>
-	<pre>{JSON.stringify(record, null, 2)}</pre>
-	<span slot="error" let:error>{error}</span>
+  <span slot="loading">Loading...</span>
+  <pre>{JSON.stringify(record, null, 2)}</pre>
+  <span slot="error" let:error>{error}</span>
 </Record>
 ```
 
@@ -93,24 +93,24 @@ As an extra sprinkle of magic, there is no need to fuss about with `{ #await }` 
 
 ```typescript
 <script lang="ts">
-	import List from '$lib/List.svelte';
+  import List from '$lib/List.svelte';
 
-	let page = 1;
+  let page = 1;
 
-	function setPage(number: number) {
-		page = number;
-	}
+  function setPage(number: number) {
+    page = number;
+  }
 </script>
 
 <List collection="posts" {page} perPage={2} query={{ sort: '-created' }} let:items let:pages>
-	{#each items as item}
-		<h1>{item.title}</h1>
-	{/each}
-	{#each pages as pageNumber}
-		<button on:click={() => setPage(pageNumber)}>{pageNumber}</button>
-	{/each}
-	<pre>{JSON.stringify(items, null, 2)}</pre>
-	<span slot="error" let:error>{error}</span>
+  {#each items as item}
+    <h1>{item.title}</h1>
+  {/each}
+  {#each pages as pageNumber}
+    <button on:click={() => setPage(pageNumber)}>{pageNumber}</button>
+  {/each}
+  <pre>{JSON.stringify(items, null, 2)}</pre>
+  <span slot="error" let:error>{error}</span>
 </List>
 ```
 
@@ -126,22 +126,22 @@ You can also pass content to the `pages slot` provided that you also include a p
 
 ```typescript
 <script lang="ts">
-	import List from '$lib/List.svelte';
-	import Pagination from '$lib/Pagination.svelte';
+  import List from '$lib/List.svelte';
+  import Pagination from '$lib/Pagination.svelte';
 
-	let page = 1;
+  let page = 1;
 
-	function setPage(number: number) {
-		page = number;
-	}
+  function setPage(number: number) {
+    page = number;
+  }
 </script>
 
 <List collection="posts" {page} perPage={2} query={{ sort: '-created' }} let:items let:pages>
-	<Pagination {items} {pages} let:item>
-		<h1>{item.title}</h1>
-		<button slot="pages" let:pageNumber on:click={() => setPage(pageNumber)}>{pageNumber}</button>
-	</Pagination>
-	<span slot="error" let:error>{error}</span>
+  <Pagination {items} {pages} let:item>
+    <h1>{item.title}</h1>
+    <button slot="pages" let:pageNumber on:click={() => setPage(pageNumber)}>{pageNumber}</button>
+  </Pagination>
+  <span slot="error" let:error>{error}</span>
 </List>
 ```
 
@@ -149,14 +149,14 @@ You can also pass content to the `pages slot` provided that you also include a p
 
 ```typescript
 <script>
-	import { FullList } from 'svelte-pocketbase';
+  import { FullList } from 'svelte-pocketbase';
 </script>
 
 <FullList collection="posts" batch={50} let:records>
-	{#each records as record}
-		<p>{record.title}</p>
-	{/each}
-	<span slot="error" let:error>{error}</span>
+  {#each records as record}
+    <p>{record.title}</p>
+  {/each}
+  <span slot="error" let:error>{error}</span>
 </FullList>
 ```
 
@@ -168,15 +168,15 @@ By default, the component will return a `batch` of 100 records, but you are free
 
 ```typescript
 <script>
-	import { FullList } from 'svelte-pocketbase';
+  import { FullList } from 'svelte-pocketbase';
 </script>
 
 <FirstListItem
-	collection="posts"
-	filter={'slug="my-post"'}
-	let:record>
-		<h1>{record.title}</h1>
-		<span slot="error" let:error>{error}</span>
+  collection="posts"
+  filter={'slug="my-post"'}
+  let:record>
+    <h1>{record.title}</h1>
+    <span slot="error" let:error>{error}</span>
 </FirstListItem>
 ```
 
@@ -186,18 +186,18 @@ If you are looking to find that one specific record that matches a certain param
 
 ```typescript
 <script>
-	import { User } from 'svelte-pocketbase';
+  import { User } from 'svelte-pocketbase';
 </script>
 
 <User let:user>
-	<div>
-		<p>Name: {user?.name}</p>
-		<p>Email: {user?.email}</p>
-	</div>
-	<div slot="signedout">
-		<li><a href="/login">Log in</a></li>
-		<li><a href="/register">Register</a></li>
-	</div>
+  <div>
+    <p>Name: {user?.name}</p>
+    <p>Email: {user?.email}</p>
+  </div>
+  <div slot="signedout">
+    <li><a href="/login">Log in</a></li>
+    <li><a href="/register">Register</a></li>
+  </div>
 </User>
 
 ```
@@ -205,6 +205,8 @@ If you are looking to find that one specific record that matches a certain param
 Need to show (or hide) certain parts of your UI based on a user's authentication status? Simply wrap any content you want to conditionally render with the `User` component, and it will only appear if there is a user object in the `authStore`.
 
 If you want a fallback element for signed-out users? Just assign it to the `signedout` slot.
+
+Also, if you want to render a placeholder during the loading phase, assign an element to the `loading slot` as we do for all other components.
 
 To access the user's data, just use the `let:user` directive to pass it down to any child elements.
 
@@ -268,6 +270,6 @@ export const load = (({ locals }) => {
 
 ## Contribute
 
-This library is still very much work-in-progress. As mentioned before, you may want to avoid using this is a production setting until things are a bit more polished. I hope to add additional features such as realtime features and CRUD helpers in the near future.
+This library is still very much work-in-progress. As mentioned before, you may want to avoid using this in a production setting until things are a bit more polished. I hope to add additional features such as realtime features and CRUD helpers in the near future.
 
 Feel free to contribute to this project if you have ideas or suggestions for improvements.
