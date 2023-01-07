@@ -1,15 +1,26 @@
 <script lang="ts">
 	import { writable } from 'svelte/store';
+	import { onMount } from 'svelte';
 	import { pbStore } from './stores';
 
-	const currentUser = writable($pbStore.authStore.model);
+	let mounted = false;
+	const user = writable($pbStore.authStore.model);
+
 	$pbStore.authStore.onChange(() => {
-		currentUser.set($pbStore.authStore.model);
+		user.set($pbStore.authStore.model);
+	});
+
+	onMount(() => {
+		mounted = true;
 	});
 </script>
 
-{#if $currentUser}
-	<slot user={$currentUser} />
+{#if mounted}
+	{#if $user}
+		<slot user={$user} />
+	{:else}
+		<slot name="signedout" />
+	{/if}
 {:else}
-	<slot name="signedout" />
+	<slot name="loading" />
 {/if}
