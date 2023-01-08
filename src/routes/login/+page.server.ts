@@ -1,5 +1,12 @@
 import { redirect } from '@sveltejs/kit';
-import type { Actions } from './$types';
+import type { Actions, PageServerLoad } from './$types';
+
+export const load = (({ locals, request }) => {
+  console.log(request.url)
+	if (locals.pb.authStore.isValid) {
+		throw redirect(303, '/');
+	}
+}) satisfies PageServerLoad;
 
 export const actions: Actions = {
 	default: async ({ locals, request }) => {
@@ -15,6 +22,6 @@ export const actions: Actions = {
 			throw e;
 		}
 
-		throw redirect(303, '/');
+		throw redirect(303, request.url.replace(/.+\?origin=(.+)/g, '/$1'));
 	}
 };

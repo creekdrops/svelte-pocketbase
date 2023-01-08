@@ -22,7 +22,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	const response = await resolve(event);
 
 	// send back the default 'pb_auth' cookie to the client with the latest store state
-	response.headers.set('set-cookie', event.locals.pb.authStore.exportToCookie());
+	response.headers.set('set-cookie', event.locals.pb.authStore.exportToCookie({httpOnly: false, secure: false}));
 
 	return response;
 };
