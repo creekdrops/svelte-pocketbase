@@ -1,7 +1,7 @@
 # svelte-pocketbase
 
-> **\*Hold up!** This library is currently experimental, and in early
-> development. Be careful if you intend on using this in production.\*
+> Hold up! This library is currently experimental, and in early
+> development. Be careful if you intend on using this in production.
 
 **Supercharge your Sveltekit + PocketBase project!**
 
