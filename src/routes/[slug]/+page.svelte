@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Progress from '$lib/Progress.svelte';
 	import type { PageData } from './$types';
 	export let data: PageData;
 </script>
