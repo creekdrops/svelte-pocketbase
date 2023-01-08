@@ -4,10 +4,6 @@ nextUrl: '/record'
 nextButton: 'Record'
 ---
 
-<script lang="ts">
-  import Progress from "$lib/Progress.svelte"
-</script>
-
 # {title}
 
 **Supercharge your Sveltekit + PocketBase project!**
