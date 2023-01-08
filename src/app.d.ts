@@ -12,5 +12,19 @@ declare global {
 		}
 		// interface PageData {}
 		// interface Platform {}
-	}
+  }
+  declare module '*.md' {
+    export const metadata: {
+			title?: string;
+			prevUrl?: string;
+			prevButton?: string;
+			nextUrl?: string;
+			nextButton?: string;
+		};
+    const content: ConstructorOfATypedSvelteComponent;
+    export default content
+  };
 }
+
+
+
