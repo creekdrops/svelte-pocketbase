@@ -1,40 +1,19 @@
-<script>
-	import FirstListItem from '$lib/FirstListItem.svelte';
-	import List from '$lib/List.svelte';
+<script lang="ts">
+	import type { PageData } from './$types';
+	export let data: PageData;
 </script>
 
-<h2>Record</h2>
-<pre>
-{`<Record {pb} collection="posts" id="RECORD_ID" let:record>
-  <pre>
-    {JSON.stringify(record, null, 2)}
-  </pre>
-</Record>`}
-</pre>
+<svelte:head>
+	<title>{data.metadata?.title || 'Component'}</title>
+</svelte:head>
 
-<h2>Full List</h2>
-<pre>
-{`<FullList {pb} collection="posts" let:records>
-  {#each records as record}
-    <p>{record.title}</p>
-  {/each}
-</FullList>`}
-</pre>
-
-<h2>List</h2>
-<List collection="posts" let:records>
-	<div slot="loading">
-		<h1>Loading...</h1>
+<main>
+	<div class="bg-primary text-white p-4 rounded-md">
+		This library is in early development. Be careful if you intend on using it in a production
+		environment.
 	</div>
-	{#each records.items as record}
-		<p>{record.title}</p>
-	{/each}
-</List>
-
-<h2>FirstListItem</h2>
-<FirstListItem collection="posts" filter={'title="Test Submission"'} let:record>
-	<h3>{record.title}</h3>
-	<div slot="error" let:error>
-		{error}
+	<svelte:component this={data.content} />
+	<div class="flex justify-end">
+		<a class="btn btn-primary" href={data.metadata?.nextUrl}>{data.metadata?.nextButton}</a>
 	</div>
-</FirstListItem>
+</main>

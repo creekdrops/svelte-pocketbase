@@ -168,7 +168,7 @@ By default, the component will return a `batch` of 100 records, but you are free
 
 ```typescript
 <script>
-  import { FullList } from 'svelte-pocketbase';
+  import { FirstListItem } from 'svelte-pocketbase';
 </script>
 
 <FirstListItem
@@ -202,7 +202,7 @@ If you are looking to find that one specific record that matches a certain param
 
 ```
 
-Need to show (or hide) certain parts of your UI based on a user's authentication status? Simply wrap any content you want to conditionally render with the `User` component, and it will only appear if there is a user object in the `authStore`.
+Need to show (or hide) certain parts of your UI based on a user's authentication status? Simply wrap any content you want to conditionally render with the `User` component, and it will only appear if there is a valid user object in the `authStore`.
 
 If you want a fallback element for signed-out users? Just assign it to the `signedout` slot.
 
@@ -235,7 +235,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.pb.authStore.loadFromCookie(cookie || '');
 
 	try {
-		// get an up-to-date auth store state by verifying and refreshing the loaded auth model (if any)
+		// get an up-to-date auth store state by verifying and refreshing
+		// the loaded auth model (if any)
 		event.locals.pb.authStore.isValid && (await event.locals.pb.collection('users').authRefresh());
 	} catch (_) {
 		// clear the auth store on failed refresh
@@ -244,7 +245,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	const response = await resolve(event);
 
-	// send back the default 'pb_auth' cookie to the client with the latest store state
+	// send back the default 'pb_auth' cookie to the client with the
+	// latest store state
 	response.headers.set('set-cookie', event.locals.pb.authStore.exportToCookie());
 
 	return response;
