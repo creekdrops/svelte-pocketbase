@@ -2,12 +2,19 @@
 	import { writable } from 'svelte/store';
 	import { onMount } from 'svelte';
 	import { pbStore } from './stores';
+	import type { Record } from 'pocketbase';
+
+	interface $$Slots {
+		default: { user: Record };
+		signedout: {};
+		loading: {};
+	}
 
 	let mounted = false;
-	const user = writable($pbStore.authStore.model);
+	const user = writable($pbStore.authStore.model as Record | null);
 
 	$pbStore.authStore.onChange(() => {
-		user.set($pbStore.authStore.model);
+		user.set($pbStore.authStore.model as Record | null);
 	});
 
 	onMount(() => {
