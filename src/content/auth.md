@@ -1,12 +1,14 @@
 ---
-title: User
+title: Auth
 prevUrl: '/first-list-item'
 prevButton: 'First List Item'
+nextUrl: '/actions'
+nextButton: 'Actions'
 ---
 
 # { title }
 
-Need to show (or hide) certain parts of your UI based on a user's authentication status? Simply wrap any content you want to conditionally render with the `User` component, and it will only appear if there is a valid user object in the `authStore`.
+Need to show (or hide) certain parts of your UI based on a user's authentication status? Simply wrap any content you want to conditionally render with the `Auth` component, and it will only appear if there is a valid user object in the `authStore`.
 
 If you want a fallback element for signed-out users? Just assign it to the `signedout` slot.
 
@@ -16,10 +18,10 @@ To access the user's data, just use the `let:user` directive to pass it down to 
 
 ```typescript
 <script>
-  import { User } from 'svelte-pocketbase';
+  import { Auth } from 'svelte-pocketbase';
 </script>
 
-<User let:user>
+<Auth let:user>
   <div>
     <p>Name: {user?.name}</p>
     <p>Email: {user?.email}</p>
@@ -28,13 +30,13 @@ To access the user's data, just use the `let:user` directive to pass it down to 
     <li><a href="/login">Log in</a></li>
     <li><a href="/register">Register</a></li>
   </div>
-</User>
+</Auth>
 
 ```
 
 ## Protecting Specific Routes
 
-The User component is pretty sweet, but it is not a sufficient method for protecting critical areas of your application. If you need to protect specific routes, you should consider using a `hooks.server.(ts|js)` alongside `load` functions inside your `+page.server.(ts|js)`.
+The Auth component is pretty sweet, but it is not a sufficient method for protecting critical areas of your application. If you need to protect specific routes, you should consider using a `hooks.server.(ts|js)` alongside `load` functions inside your `+page.server.(ts|js)`.
 
 To save you the hassle of looking it up yourself, I've included a few examples below that can help get you started.
 
