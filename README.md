@@ -182,14 +182,14 @@ By default, the component will return a `batch` of 100 records, but you are free
 
 If you are looking to find that one specific record that matches a certain parameter, the `FirstListItem` component has got your back! Set the `collection` prop and provide a `filter`, and it will return the first record that fits the bill. It's like the `firstListItem` function, but without all the chaining.
 
-## Conditional User Rendering
+## Conditional Authenticated Rendering
 
 ```typescript
 <script>
-  import { User } from 'svelte-pocketbase';
+  import { Auth } from 'svelte-pocketbase';
 </script>
 
-<User let:user>
+<Auth let:user>
   <div>
     <p>Name: {user?.name}</p>
     <p>Email: {user?.email}</p>
@@ -198,11 +198,11 @@ If you are looking to find that one specific record that matches a certain param
     <li><a href="/login">Log in</a></li>
     <li><a href="/register">Register</a></li>
   </div>
-</User>
+</Auth>
 
 ```
 
-Need to show (or hide) certain parts of your UI based on a user's authentication status? Simply wrap any content you want to conditionally render with the `User` component, and it will only appear if there is a valid user object in the `authStore`.
+Need to show (or hide) certain parts of your UI based on a user's authentication status? Simply wrap any content you want to conditionally render with the `Auth` component, and it will only appear if there is a valid user object in the `authStore`.
 
 If you want a fallback element for signed-out users? Just assign it to the `signedout` slot.
 
@@ -355,7 +355,7 @@ File handling with PocketBase can be a little tricky, but the `fileUrl` action m
 
 ## Protecting Specific Routes
 
-The `User` component is pretty sweet, but it is not a sufficient method for protecting critical areas of your application. If you need to protect specific routes, you should consider using a `hooks.server.(ts|js)` alongside `load` functions inside your `+page.server.(ts|js)` files.
+The `Auth` component is pretty sweet, but it is not a sufficient method for protecting critical areas of your application. If you need to protect specific routes, you should consider using a `hooks.server.(ts|js)` alongside `load` functions inside your `+page.server.(ts|js)` files.
 
 To save you the hassle of looking up how to do this yourself, I've included a few examples below that can help get you started.
 
