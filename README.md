@@ -337,12 +337,6 @@ All actions accept an optional `query` parameter. You are also given access to t
 
 ```
 
-## Protecting Specific Routes
-
-The `User` component is pretty sweet, but it is not a sufficient method for protecting critical areas of your application. If you need to protect specific routes, you should consider using a `hooks.server.(ts|js)` alongside `load` functions inside your `+page.server.(ts|js)` files.
-
-To save you the hassle of looking up how to do this yourself, I've included a few examples below that can help get you started.
-
 
 ## fileUrl
 
@@ -358,6 +352,13 @@ File handling with PocketBase can be a little tricky, but the `fileUrl` action m
   }}/>
 </Auth>
 ```
+
+## Protecting Specific Routes
+
+The `User` component is pretty sweet, but it is not a sufficient method for protecting critical areas of your application. If you need to protect specific routes, you should consider using a `hooks.server.(ts|js)` alongside `load` functions inside your `+page.server.(ts|js)` files.
+
+To save you the hassle of looking up how to do this yourself, I've included a few examples below that can help get you started.
+
 
 ### hooks.server.ts
 
