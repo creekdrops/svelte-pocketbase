@@ -8,9 +8,8 @@
 </svelte:head>
 
 <main>
-	<div class="bg-primary text-white p-4 rounded-md">
-		This library is in early development. Be careful if you intend on using it in a production
-		environment.
+	<div class="bg-primary text-sm text-white p-4 rounded-md">
+		Hold up! This library is currently experimental, and in early development. Be careful if you intend on using this in production.
 	</div>
 	<svelte:component this={data.content} />
 	<div class="flex justify-end">

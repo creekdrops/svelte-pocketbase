@@ -2,8 +2,8 @@
 title: First List Item
 prevUrl: '/full-list'
 prevButton: 'Full List'
-nextUrl: '/user'
-nextButton: 'User'
+nextUrl: '/auth'
+nextButton: 'Auth'
 ---
 
 # { title }

@@ -6,15 +6,14 @@ nextButton: 'Record'
 
 # {title}
 
-**Supercharge your Sveltekit + PocketBase project!**
+**Cybernetically enhance your next Sveltekit + PocketBase side-project!**
 
-**Svelte-Pocketbase** is the perfect companion to your next Sveltekit + PocketBase project. This library provides declarative components that effortlessly query data from your PocketBase database.
+**Svelte-Pocketbase** is the perfect companion to your next Sveltekit + PocketBase project. This library provides declarative components that effortlessly interact your PocketBase backend.
 
 ## Getting Started
 
 ```bash
 # install svelte-pocketbase with pnpm, npm or yarn
-
 pnpm i -D svelte-pocketbase
 ```
 
@@ -22,8 +21,9 @@ pnpm i -D svelte-pocketbase
 
 To get started, instantiate a new `pbStore` in a `+page.svelte` or `+layout.svelte`.
 
-```javascript
+```typescript
 // src/+layout.svelte OR src/+page.svelte
+
 <script>
   import PocketBase from 'pocketbase';
   import { pbStore } from 'svelte-pocketbase';
@@ -55,7 +55,7 @@ The `pbStore` is the ultimate marriage of PocketBase and Svelte `Writable` magic
 {/await}
 ```
 
-This is a fair amount of boilerplate for simply retrieving a bit of data from your database. Instead, maybe try out one of the data retrieval components, like `Record`. These components handle all the tedious bits of querying and data retrieval, leaving you free to focus on more important things (like obsessively fine-tuning your Tailwind CSS config).
+As simple as this is, this is a fair amount of boilerplate for simply retrieving a bit of data from your database. Instead, maybe try out one of the data retrieval components, like `Record`. These components handle all the tedious bits of querying and data retrieval, leaving you free to focus on more important things (like obsessively fine-tuning your Tailwind CSS config).
 
 ### Data Retrieval Components
 
