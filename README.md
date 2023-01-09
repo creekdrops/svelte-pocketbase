@@ -3,9 +3,9 @@
 > Hold up! This library is currently experimental, and in early
 > development. Be careful if you intend on using this in production.
 
-**Supercharge your Sveltekit + PocketBase project!**
+**Cybernetically enhance your next Sveltekit + PocketBase side-project!**
 
-**Svelte-Pocketbase** is the perfect companion to your next Sveltekit + PocketBase project. This library provides declarative components that effortlessly query data from your PocketBase database.
+**Svelte-Pocketbase** is the perfect companion to your next Sveltekit + PocketBase project. This library provides declarative components that effortlessly interact your PocketBase backend.
 
 ## Getting Started
 
@@ -52,7 +52,7 @@ The `pbStore` is the ultimate marriage of PocketBase and Svelte `Writable` magic
 {/await}
 ```
 
-This is a fair amount of boilerplate for simply retrieving a bit of data from your database. Instead, maybe try out one of the data retrieval components, like `Record`. These components handle all the tedious bits of querying and data retrieval, leaving you free to focus on more important things (like obsessively fine-tuning your Tailwind CSS config).
+As simple as this is, this is a fair amount of boilerplate for simply retrieving a bit of data from your database. Instead, maybe try out one of the data retrieval components, like `Record`. These components handle all the tedious bits of querying and data retrieval, leaving you free to focus on more important things (like obsessively fine-tuning your Tailwind CSS config).
 
 ### Components
 
@@ -61,7 +61,7 @@ This is a fair amount of boilerplate for simply retrieving a bit of data from yo
 - `FullList`
 - `FirstListItem`
 
-Every data retrieval component receives a `collection` prop, and an optional `query` prop that can be used to sort and filter the results. Each component also contains an `error` slot that can be used to notify the user.
+Every data retrieval component receives a `collection` prop, and an optional `query` prop that can be used to sort and filter the results. Each component also contains an `error` slot that can be used to notify the user if something went wrong.
 
 ## Retrieving Data
 
@@ -164,7 +164,7 @@ If you want to retrieve all records from a collection as you would using the `ge
 
 By default, the component will return a `batch` of 100 records, but you are free to increase or decrease this to fit your specific needs.
 
-### First Item Within a List
+### First Item within a List
 
 ```typescript
 <script>
@@ -210,13 +210,156 @@ Also, if you want to render a placeholder during the loading phase, assign an el
 
 To access the user's data, just use the `let:user` directive to pass it down to any child elements.
 
-### Protecting Specific Routes
+## Actions
 
-The User component is pretty sweet, but it is not a sufficient method for protecting critical areas of your application. If you need to protect specific routes, you should consider using a `hooks.server.(ts|js)` alongside `load` functions inside your `+page.server.(ts|js)`.
+Svelte-Pocketbase also ships a number of actions to help with **creating**, **reading**, **updating** and **deleting** records within your database. Using these actions, developers can easily manage the data in their PocketBase backend and perform common API tasks, but in a more "Svelty" way!
 
-To save you the hassle of looking it up yourself, I've included a few examples below that can help get you started.
+### createRecordStore
 
-#### hooks.server.ts
+To use these actions, you'll first create a record store using `createRecordStore`. Once instantiated, you can start interacting with the database using the `use:actions` directive throughout your code. `.create`, `.update`, and `.delete` are designed to work with `form` elements, whereas `.getOne`, `getList`, `getFullList`, and `getFirstListItem` can be attached to any element where you want to render data.
+
+```javascript
+<script>
+  import { env } from '$env/dynamic/public';
+  import { pbStore } from '$lib/stores';
+  import { createRecordStore } from '$lib/actions';
+
+  pbStore.set(env.PUBLIC_POCKETBASE_URL);
+
+  const record = createRecordStore($pbStore);
+</script>
+
+<form use:record.create={{collection: "comments"}}>
+  <textarea name="comment" />
+  <button type="submit">Submit</button>
+</form>
+```
+
+### .create
+
+Creates a new record in a collection.
+
+```javascript
+<form use:record.create={{collection: "comments"}}>
+  <textarea name="comment" />
+  <button type="submit">Submit</button>
+</form>
+```
+
+### .update
+
+Updates an existing record in a collection that matches the `id` parameter.
+
+```javascript
+<form use:record.update={{collection: "comments", id: "RECORD_ID"}}>
+  <textarea name="comment" />
+  <button type="submit">Update</button>
+</form>
+```
+
+### .delete
+
+Deletes an existing record from a collection that matches the `id` parameter.
+
+```javascript
+<form use:record.delete={{collection: "comments", id: "RECORD_ID"}}>
+  <button type="submit">Delete</button>
+</form>
+
+```
+
+### .getOne
+
+Returns a single record that matches the `id` parameter.
+
+```javascript
+<h1 use:record.getOne={{collection: "posts", id: "RECORD_ID"}}>
+  {$record.data.title}
+</h1>
+```
+
+### .getList
+
+Returns a paginated list of iterable record items, and receives optional `page` and `perPage` parameters.
+
+```javascript
+<ul use:record.getList={{collection: "posts", page: 1, perPage: 10}}>
+  {#each $record.data.records as record}
+    <li>{record.title}</li>
+  {/each}
+</ul>
+```
+
+
+### .getFullList
+
+Returns all records in a collection, and receives and optional `batch` parameter.
+
+```javascript
+<ul use:record.getFullList={{collection: "posts", batch: 10}}>
+  {#each $record.data.records as record}
+    <li>{record.title}</li>
+  {/each}
+</ul>
+```
+
+### .getFirstListItem
+
+Returns the first record in a collection that matches a given filter.
+
+```javascript
+<h1 use:record.getFirstListItem={{collection: "posts", filter: 'slug="my-post"'}}>
+  {$record.data.title}
+</h1>
+```
+
+### Additional Parameters
+
+All actions accept an optional `query` parameter. You are also given access to the internal state of the record store which contains `loading`, `error`, `success`, and `data`.
+
+```javascript
+<form use:record.create={{ collection: 'subscribers' }}>
+  <input type="email" name="email" />
+  <button disabled={$record.loading} type="submit">Sign Up</button>
+</form>
+
+{#if $record.success}
+  <div>Thanks for joining our spam list!</div>
+{/if}
+
+{#if $record.error}
+  <div>Error: {$record.error}</div>
+{/if}
+
+{#if $record.data}
+  <pre>{JSON.stringify($record.data, null, 2)}</pre>
+{/if}
+
+```
+
+## Protecting Specific Routes
+
+The `User` component is pretty sweet, but it is not a sufficient method for protecting critical areas of your application. If you need to protect specific routes, you should consider using a `hooks.server.(ts|js)` alongside `load` functions inside your `+page.server.(ts|js)` files.
+
+To save you the hassle of looking up how to do this yourself, I've included a few examples below that can help get you started.
+
+
+## fileUrl
+
+File handling with PocketBase can be a little tricky, but the `fileUrl` action makes things a little easier! It can be used on an `img` or `a` tag. If it is used on an image tag, it will set the `src` attribute. If it is used on an anchor tag, it will set the `href` attribute.
+
+```javascript
+<Auth let:user>
+  <img use:fileUrl={{
+    pb: $pbStore,
+    record: user,
+    filename: user.avatar,
+    thumb: '100x100'
+  }}/>
+</Auth>
+```
+
+### hooks.server.ts
 
 ```typescript
 //	src/hooks.server.ts
@@ -226,34 +369,34 @@ import type { Handle } from '@sveltejs/kit';
 import PocketBase from 'pocketbase';
 
 export const handle: Handle = async ({ event, resolve }) => {
-	event.locals.pb = new PocketBase(env.PUBLIC_POCKETBASE_URL);
+  event.locals.pb = new PocketBase(env.PUBLIC_POCKETBASE_URL);
 
-	// Grab the cookie from request headers
-	const cookie = event.request.headers.get('cookie');
+  // Grab the cookie from request headers
+  const cookie = event.request.headers.get('cookie');
 
-	// load the store data from the request cookie string
-	event.locals.pb.authStore.loadFromCookie(cookie || '');
+  // load the store data from the request cookie string
+  event.locals.pb.authStore.loadFromCookie(cookie || '');
 
-	try {
-		// get an up-to-date auth store state by verifying and refreshing
-		// the loaded auth model (if any)
-		event.locals.pb.authStore.isValid && (await event.locals.pb.collection('users').authRefresh());
-	} catch (_) {
-		// clear the auth store on failed refresh
-		event.locals.pb.authStore.clear();
-	}
+  try {
+    // get an up-to-date auth store state by verifying and refreshing
+    // the loaded auth model (if any)
+    event.locals.pb.authStore.isValid && (await event.locals.pb.collection('users').authRefresh());
+  } catch (_) {
+    // clear the auth store on failed refresh
+    event.locals.pb.authStore.clear();
+  }
 
-	const response = await resolve(event);
+  const response = await resolve(event);
 
-	// send back the default 'pb_auth' cookie to the client with the
-	// latest store state
-	response.headers.set('set-cookie', event.locals.pb.authStore.exportToCookie());
+  // send back the default 'pb_auth' cookie to the client with the
+  // latest store state
+  response.headers.set('set-cookie', event.locals.pb.authStore.exportToCookie());
 
-	return response;
+  return response;
 };
 ```
 
-#### +page.server.ts
+### +page.server.ts
 
 ```typescript
 //	src/routes/protected-route/+page.server.ts
@@ -262,16 +405,16 @@ import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
 export const load = (({ locals }) => {
-	//	check to see if the user is authenticated
-	if (!locals.pb.authStore.isValid) {
-		//	if not, redirect them to "/login"
-		throw redirect(303, '/login');
-	}
+  //	check to see if the user is authenticated
+  if (!locals.pb.authStore.isValid) {
+    //	if not, redirect them to "/login"
+    throw redirect(303, '/login');
+  }
 }) satisfies PageServerLoad;
 ```
 
 ## Contribute
 
-This library is still very much work-in-progress. As mentioned before, you may want to avoid using this in a production setting until things are a bit more polished. I hope to add additional features such as realtime features and CRUD helpers in the near future.
+This library is still very much a work-in-progress side-project. As mentioned before, you may want to avoid using this in a production setting until things are a bit more polished. I hope to add realtime features in the near future.
 
 Feel free to contribute to this project if you have ideas or suggestions for improvements.
